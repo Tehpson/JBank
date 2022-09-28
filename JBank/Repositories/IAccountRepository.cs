@@ -26,13 +26,23 @@ namespace JBank.Repositories
         Account CreateAccount(User user);
 
         /// <summary>
-        /// Add an Transaction
+        /// Add an Transaction from account
         /// </summary>
         /// <param name="accountNumber">number of account sent from</param>
         /// <param name="ToAccount">number of account sent to</param>
         /// <param name="amount">amount sent</param>
         /// <returns></returns>
-        Transaction Addtransaction(int accountNumber, int ToAccount, double amount);
+        bool AddOutgoingTransaction(int accountNumber, int ToAccount, double amount);
+
+
+        /// <summary>
+        /// Add an incomeing Transaction
+        /// </summary>
+        /// <param name="accountNumber">number of account sent from</param>
+        /// <param name="ToAccount">number of account sent to</param>
+        /// <param name="amount">amount sent</param>
+        /// <returns></returns>
+        bool AddIncomingTransaction(int accountNumber, int FormAccont, double amount);
 
         /// <summary>
         /// Removes an account

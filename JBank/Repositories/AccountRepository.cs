@@ -1,4 +1,5 @@
 ﻿using JBank.Models;
+using System.Linq.Expressions;
 
 namespace JBank.Repositories
 {
@@ -11,9 +12,44 @@ namespace JBank.Repositories
             this.context = context;
         }
 
-        public Transaction Addtransaction(int accountNumber, int ToAccount, double amount)
+        public bool AddIncomingTransaction(int accountNumber, int formAccont, double amount)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Account acc = GetAccount(accountNumber);
+                if(acc == null || amount < 0)
+                {
+                    return false;
+                }
+                var transaction = new Transaction { Amount = amount, ToAccount = accountNumber, FromAccount = formAccont, Time = DateTime.Now };
+                acc.Transactions.Add(transaction);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool AddOutgoingTransaction(int accountNumber, int ToAccount, double amount)
+        {
+            try
+            {
+                Account acc = GetAccount(accountNumber);
+                if (acc == null || amount < 0)
+                {
+                    return false;
+                }
+                var transaction = new Transaction { Amount = amount, ToAccount = ToAccount, FromAccount = accountNumber, Time = DateTime.Now };
+                acc.Transactions.Add(transaction);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public Account CreateAccount(User user)

@@ -4,6 +4,7 @@ using JBank.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JBank.Migrations
 {
     [DbContext(typeof(BankDBContext))]
-    partial class BankDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220928143258_Added all to DBSet")]
+    partial class AddedalltoDBSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,18 +26,18 @@ namespace JBank.Migrations
 
             modelBuilder.Entity("JBank.Models.Account", b =>
                 {
-                    b.Property<decimal>("AccountNumber")
+                    b.Property<int>("AccountNumber")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(12)
-                        .HasColumnType("decimal(20,0)");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("AccountNumber"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountNumber"), 1L, 1);
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("UserNumber")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("UserNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("AccountNumber");
 
@@ -46,11 +48,11 @@ namespace JBank.Migrations
 
             modelBuilder.Entity("JBank.Models.Loan", b =>
                 {
-                    b.Property<int>("LoanNumber")
+                    b.Property<long>("LoanNumber")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanNumber"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("LoanNumber"), 1L, 1);
 
                     b.Property<double>("AmountLoaned")
                         .HasColumnType("float");
@@ -64,8 +66,8 @@ namespace JBank.Migrations
                     b.Property<double>("Rent")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("UserNumber")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("UserNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("LoanNumber");
 
@@ -82,8 +84,8 @@ namespace JBank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionID"), 1L, 1);
 
-                    b.Property<decimal?>("AccountNumber")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<int?>("AccountNumber")
+                        .HasColumnType("int");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -106,9 +108,12 @@ namespace JBank.Migrations
 
             modelBuilder.Entity("JBank.Models.User", b =>
                 {
-                    b.Property<Guid>("UserNumber")
+                    b.Property<int>("UserNumber")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasMaxLength(20)
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserNumber"), 1L, 1);
 
                     b.Property<bool>("AbleToTakeLoan")
                         .HasColumnType("bit");

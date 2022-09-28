@@ -6,11 +6,8 @@ namespace JBank.Models
     {
         [Key]
         [Required]
-        [MaxLength(20, ErrorMessage = "User number need to be 20 characters")]
-        [MinLength(20, ErrorMessage = "user number need to be 20 characters")]
-        public int UserNumber { get; set; }
+        public Guid UserNumber { get; set; }
 
-        [Required]
         public List<Account> Accounts { get; set; }
 
         [Required]

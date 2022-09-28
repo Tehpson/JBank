@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JBank.Models
 {
     public class Loan
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Required]
-        public uint LoanNumber { get; set; }
+        public int LoanNumber { get; set; }
 
         [Required]
         public double AmountLoaned { get; set; }
