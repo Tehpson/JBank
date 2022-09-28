@@ -6,8 +6,8 @@ namespace JBank.Models
     {
         [Key]
         [Required]
-        [MaxLength(12, ErrorMessage = "Acount Number need to be 12 characters")]
-        [MinLength(12, ErrorMessage = "Acount Number need to be 12 characters")]
+        [MaxLength(14, ErrorMessage = "Acount Number need to be 14 characters")]
+        [MinLength(14, ErrorMessage = "Acount Number need to be 14 characters")]
         public string AccountNumber { get; set; }
 
         [Required]

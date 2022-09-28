@@ -61,10 +61,10 @@ namespace JBank.Repositories
                     return null;
                 }
 
-                string firstPart;
+                string accountnumber;
                 var areaCodeNumber = (int)userCtx.AreaCode;
                 var areaCodeSplit = areaCodeNumber.ToString().ToCharArray();
-                firstPart =
+                accountnumber =
                     areaCodeSplit.Length == 3 ?
                         (areaCodeNumber * 10 + new Random().Next(10)).ToString()
                     : areaCodeSplit.Length == 2 ?
@@ -72,8 +72,9 @@ namespace JBank.Repositories
                     : areaCodeSplit.Length == 1 ?
                         "00" + (areaCodeNumber * 10 + new Random().Next(10)).ToString() :
                         new Random().Next(1000, 10000).ToString();
+                accountnumber += DateTime.Now.ToString("yyMMddmmff");
 
-                var acc = new Account { };
+                var acc = new Account { AccountNumber = accountnumber, Amount = 0};
 
                 userCtx.Accounts.Add(acc);
                 context.SaveChanges();
