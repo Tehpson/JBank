@@ -1,5 +1,4 @@
 ﻿using JBank.Models;
-using System.Linq.Expressions;
 
 namespace JBank.Repositories
 {
@@ -12,49 +11,78 @@ namespace JBank.Repositories
             this.context = context;
         }
 
-        public bool AddIncomingTransaction(int accountNumber, int formAccont, double amount)
-        {
-            try
-            {
-                Account acc = GetAccount(accountNumber);
-                if(acc == null || amount < 0)
-                {
-                    return false;
-                }
-                var transaction = new Transaction { Amount = amount, ToAccount = accountNumber, FromAccount = formAccont, Time = DateTime.Now };
-                acc.Transactions.Add(transaction);
-                context.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool AddOutgoingTransaction(int accountNumber, int ToAccount, double amount)
+        public Transaction? AddIncomingTransaction(int accountNumber, int formAccont, double amount)
         {
             try
             {
                 Account acc = GetAccount(accountNumber);
                 if (acc == null || amount < 0)
                 {
-                    return false;
+                    return null;
+                }
+                var transaction = new Transaction { Amount = amount, ToAccount = accountNumber, FromAccount = formAccont, Time = DateTime.Now };
+                acc.Transactions.Add(transaction);
+                context.SaveChanges();
+                return context.Transactions.Find(transaction);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Transaction? AddOutgoingTransaction(int accountNumber, int ToAccount, double amount)
+        {
+            try
+            {
+                Account acc = GetAccount(accountNumber);
+                if (acc == null || amount < 0)
+                {
+                    return null;
                 }
                 var transaction = new Transaction { Amount = amount, ToAccount = ToAccount, FromAccount = accountNumber, Time = DateTime.Now };
                 acc.Transactions.Add(transaction);
                 context.SaveChanges();
-                return true;
+                return context.Transactions.Find(transaction);
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 
-        public Account CreateAccount(User user)
+        public Account? CreateAccount(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userCtx = context.Users.Find(user);
+                if (userCtx == null)
+                {
+                    return null;
+                }
+
+                string firstPart;
+                var areaCodeNumber = (int)userCtx.AreaCode;
+                var areaCodeSplit = areaCodeNumber.ToString().ToCharArray();
+                firstPart =
+                    areaCodeSplit.Length == 3 ?
+                        (areaCodeNumber * 10 + new Random().Next(10)).ToString()
+                    : areaCodeSplit.Length == 2 ?
+                        "0" + (areaCodeNumber * 10 + new Random().Next(10)).ToString()
+                    : areaCodeSplit.Length == 1 ?
+                        "00" + (areaCodeNumber * 10 + new Random().Next(10)).ToString() :
+                        new Random().Next(1000, 10000).ToString();
+
+                var acc = new Account { };
+
+                userCtx.Accounts.Add(acc);
+                context.SaveChanges();
+                return context.Accounts.Find(acc);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public Account GetAccount(int accountNumber)

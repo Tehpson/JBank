@@ -13,6 +13,8 @@ namespace JBank.Models
         [Required]
         public bool AbleToTakeLoan { get; set; } = true;
 
-        public List<Loan> Loan { get; set; } = new List<Loan>();
+        public List<Loan> Loans { get; set; } = new List<Loan>();
+
+        public AreaCode AreaCode { get; set; }
     }
 }

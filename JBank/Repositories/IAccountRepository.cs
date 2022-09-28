@@ -9,21 +9,21 @@ namespace JBank.Repositories
         /// </summary>
         /// <param name="accountNumber">number of the account</param>
         /// <returns>an account</returns>
-        Account GetAccount(int accountNumber);
+        Account? GetAccount(int accountNumber);
 
         /// <summary>
         /// Get All account a user have
         /// </summary>
         /// <param name="user">user of the accounts</param>
         /// <returns>list of accounts</returns>
-        IEnumerable<Account> GetAccounts(User user);
+        IEnumerable<Account>? GetAccounts(User user);
 
         /// <summary>
         /// Create new Accrount
         /// </summary>
         /// <param name="user">user who wants new account</param>
         /// <returns>New account</returns>
-        Account CreateAccount(User user);
+        Account? CreateAccount(User user);
 
         /// <summary>
         /// Add an Transaction from account
@@ -32,7 +32,7 @@ namespace JBank.Repositories
         /// <param name="ToAccount">number of account sent to</param>
         /// <param name="amount">amount sent</param>
         /// <returns></returns>
-        bool AddOutgoingTransaction(int accountNumber, int ToAccount, double amount);
+        Transaction? AddOutgoingTransaction(int accountNumber, int ToAccount, double amount);
 
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace JBank.Repositories
         /// <param name="ToAccount">number of account sent to</param>
         /// <param name="amount">amount sent</param>
         /// <returns></returns>
-        bool AddIncomingTransaction(int accountNumber, int FormAccont, double amount);
+        Transaction? AddIncomingTransaction(int accountNumber, int FormAccont, double amount);
 
         /// <summary>
         /// Removes an account

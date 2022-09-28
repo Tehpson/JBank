@@ -4,6 +4,7 @@ using JBank.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JBank.Migrations
 {
     [DbContext(typeof(BankDBContext))]
-    partial class BankDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220928162314_Change account number to be string and added areaCode")]
+    partial class ChangeaccountnumbertobestringandaddedareaCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
