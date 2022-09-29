@@ -8,7 +8,7 @@ namespace JBank.Models
         [Required]
         public Guid UserNumber { get; set; }
 
-        public List<Account> Accounts { get; set; }
+        public List<Account> Accounts { get; set; } = new List<Account>();
 
         [Required]
         public bool AbleToTakeLoan { get; set; } = true;

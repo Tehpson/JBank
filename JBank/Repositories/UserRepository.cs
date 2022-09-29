@@ -11,24 +11,74 @@ namespace JBank.Repositories
             this.context = context;
         }
 
-        public User AddUser()
+        public User? AddUser(AreaCode areaCode)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var usernumber = new Guid();
+                var user = new User { UserNumber = usernumber, AreaCode = areaCode, AbleToTakeLoan = true};
+                context.Users.Add(user);
+                context.SaveChanges();
+                return GetUser(usernumber);
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
-        public User GetUser(int userNumber)
+        public User? GetUser(Guid userNumber)
         {
-            throw new NotImplementedException();
+            return context.Users.Find(userNumber);
         }
 
-        public bool RemoveUser(int userNumber)
+        public bool RemoveUser(Guid userNumber)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userCtx = GetUser(userNumber);
+                if (userCtx == null) return false;
+                context.Users.Remove(userCtx);
+                context.SaveChanges();
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
         }
 
-        public User UpdateUser(int userNumber, User updateUser)
+        public bool UpadeAreaCode(Guid userNumber, AreaCode newAreaCode)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userCtx = GetUser(userNumber);
+                if (userCtx == null) return false;
+                userCtx.AreaCode = newAreaCode;
+                context.SaveChanges();
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateLoanblock(Guid userNumber, bool updatedValue)
+        {
+            try
+            {
+                var userCtx = GetUser(userNumber);
+                if (userCtx == null) return false;
+                userCtx.AbleToTakeLoan = updatedValue;
+                context.SaveChanges();
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+
         }
     }
 }

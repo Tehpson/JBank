@@ -109,7 +109,9 @@ namespace JBank.Repositories
             try
             {
                 var acc = context.Accounts.Find(acountNumber);
+                if(acc == null) return false;
                 context.Accounts.Remove(acc);
+                context.SaveChanges();
                 return true;
             }
             catch
