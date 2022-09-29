@@ -9,21 +9,21 @@ namespace JBank.Repositories
         /// </summary>
         /// <param name="LoanNumber">number of loan</param>
         /// <returns> one loan object</returns>
-        Loan GetLoanFromNumber(int LoanNumber);
+        Loan? GetLoanFromNumber(int LoanNumber);
 
         /// <summary>
         /// Gets all loan from a user
         /// </summary>
         /// <param name="user">user who have loans</param>
         /// <returns> list of loans</returns>
-        IEnumerable<Loan> GetLoansFromUser(User user);
+        IEnumerable<Loan>? GetLoansFromUser(User user);
 
         /// <summary>
         /// Create New Loan
         /// </summary>
         /// <param name="user">user who is geting loan</param>
         /// <returns>Loan That was created</returns>
-        Loan CreateLoan(User user);
+        Loan? CreateLoan(User user);
 
         /// <summary>
         /// Add amount that was Repaied

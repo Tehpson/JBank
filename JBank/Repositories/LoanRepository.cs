@@ -11,17 +11,17 @@ namespace JBank.Repositories
             this.context = context;
         }
 
-        public Loan CreateLoan(User user)
+        public Loan? CreateLoan(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Loan GetLoanFromNumber(int LoanNumber)
+        public Loan? GetLoanFromNumber(int LoanNumber)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Loan> GetLoansFromUser(User user)
+        public IEnumerable<Loan>? GetLoansFromUser(User user)
         {
             throw new NotImplementedException();
         }
