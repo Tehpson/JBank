@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JBank.Migrations
 {
     [DbContext(typeof(BankDBContext))]
-    [Migration("20220928121747_UserData")]
-    partial class UserData
+    [Migration("20220929063108_New Migration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,33 +26,30 @@ namespace JBank.Migrations
 
             modelBuilder.Entity("JBank.Models.Account", b =>
                 {
-                    b.Property<int>("AccountNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(12)
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountNumber"), 1L, 1);
+                    b.Property<string>("AccountNumber")
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int?>("UserNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserNumber")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AccountNumber");
 
                     b.HasIndex("UserNumber");
 
-                    b.ToTable("Account");
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("JBank.Models.Loan", b =>
                 {
-                    b.Property<long>("LoanNumber")
+                    b.Property<int>("LoanNumber")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("LoanNumber"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanNumber"), 1L, 1);
 
                     b.Property<double>("AmountLoaned")
                         .HasColumnType("float");
@@ -66,14 +63,14 @@ namespace JBank.Migrations
                     b.Property<double>("Rent")
                         .HasColumnType("float");
 
-                    b.Property<int?>("UserNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserNumber")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoanNumber");
 
                     b.HasIndex("UserNumber");
 
-                    b.ToTable("Loan");
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("JBank.Models.Transaction", b =>
@@ -84,8 +81,8 @@ namespace JBank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionID"), 1L, 1);
 
-                    b.Property<int?>("AccountNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -103,20 +100,20 @@ namespace JBank.Migrations
 
                     b.HasIndex("AccountNumber");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("JBank.Models.User", b =>
                 {
-                    b.Property<int>("UserNumber")
+                    b.Property<Guid>("UserNumber")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserNumber"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("AbleToTakeLoan")
                         .HasColumnType("bit");
+
+                    b.Property<int>("AreaCode")
+                        .HasColumnType("int");
 
                     b.HasKey("UserNumber");
 
@@ -133,7 +130,7 @@ namespace JBank.Migrations
             modelBuilder.Entity("JBank.Models.Loan", b =>
                 {
                     b.HasOne("JBank.Models.User", null)
-                        .WithMany("Loan")
+                        .WithMany("Loans")
                         .HasForeignKey("UserNumber");
                 });
 
@@ -153,7 +150,7 @@ namespace JBank.Migrations
                 {
                     b.Navigation("Accounts");
 
-                    b.Navigation("Loan");
+                    b.Navigation("Loans");
                 });
 #pragma warning restore 612, 618
         }

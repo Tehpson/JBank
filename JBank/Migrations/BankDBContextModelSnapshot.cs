@@ -25,8 +25,8 @@ namespace JBank.Migrations
             modelBuilder.Entity("JBank.Models.Account", b =>
                 {
                     b.Property<string>("AccountNumber")
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -80,7 +80,7 @@ namespace JBank.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionID"), 1L, 1);
 
                     b.Property<string>("AccountNumber")
-                        .HasColumnType("nvarchar(12)");
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");

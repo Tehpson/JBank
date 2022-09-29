@@ -31,7 +31,7 @@ namespace JBank.Repositories
             }
         }
 
-        public Transaction? AddOutgoingTransaction(int accountNumber, int ToAccount, double amount)
+        public Transaction? AddOutgoingTransaction(int accountNumber, int toAccount, double amount)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace JBank.Repositories
                 {
                     return null;
                 }
-                var transaction = new Transaction { Amount = amount, ToAccount = ToAccount, FromAccount = accountNumber, Time = DateTime.Now };
+                var transaction = new Transaction { Amount = amount, ToAccount = toAccount, FromAccount = accountNumber, Time = DateTime.Now };
                 acc.Transactions.Add(transaction);
                 context.SaveChanges();
                 return context.Transactions.Find(transaction);
@@ -86,19 +86,36 @@ namespace JBank.Repositories
             }
         }
 
-        public Account GetAccount(int accountNumber)
+        public Account? GetAccount(int accountNumber)
         {
-            throw new NotImplementedException();
+            return context.Accounts.Find(accountNumber);
         }
 
-        public IEnumerable<Account> GetAccounts(User user)
+        public IEnumerable<Account>? GetAccounts(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var DBUser = context.Users.Find(user);
+                return DBUser?.Accounts;
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
         public bool RemoveAccount(int acountNumber)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var acc = context.Accounts.Find(acountNumber);
+                context.Accounts.Remove(acc);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

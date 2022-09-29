@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JBank.Migrations
 {
-    public partial class UserData : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,9 +13,9 @@ namespace JBank.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserNumber = table.Column<int>(type: "int", maxLength: 20, nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AbleToTakeLoan = table.Column<bool>(type: "bit", nullable: false)
+                    UserNumber = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AbleToTakeLoan = table.Column<bool>(type: "bit", nullable: false),
+                    AreaCode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,48 +23,47 @@ namespace JBank.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Account",
+                name: "Accounts",
                 columns: table => new
                 {
-                    AccountNumber = table.Column<int>(type: "int", maxLength: 12, nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountNumber = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
-                    UserNumber = table.Column<int>(type: "int", nullable: true)
+                    UserNumber = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Account", x => x.AccountNumber);
+                    table.PrimaryKey("PK_Accounts", x => x.AccountNumber);
                     table.ForeignKey(
-                        name: "FK_Account_Users_UserNumber",
+                        name: "FK_Accounts_Users_UserNumber",
                         column: x => x.UserNumber,
                         principalTable: "Users",
                         principalColumn: "UserNumber");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Loan",
+                name: "Loans",
                 columns: table => new
                 {
-                    LoanNumber = table.Column<long>(type: "bigint", nullable: false)
+                    LoanNumber = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AmountLoaned = table.Column<double>(type: "float", nullable: false),
                     AmountPayedBack = table.Column<double>(type: "float", nullable: false),
                     Rent = table.Column<double>(type: "float", nullable: false),
                     LeftToPay = table.Column<double>(type: "float", nullable: false),
-                    UserNumber = table.Column<int>(type: "int", nullable: true)
+                    UserNumber = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Loan", x => x.LoanNumber);
+                    table.PrimaryKey("PK_Loans", x => x.LoanNumber);
                     table.ForeignKey(
-                        name: "FK_Loan_Users_UserNumber",
+                        name: "FK_Loans_Users_UserNumber",
                         column: x => x.UserNumber,
                         principalTable: "Users",
                         principalColumn: "UserNumber");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transaction",
+                name: "Transactions",
                 columns: table => new
                 {
                     TransactionID = table.Column<int>(type: "int", nullable: false)
@@ -73,44 +72,44 @@ namespace JBank.Migrations
                     ToAccount = table.Column<int>(type: "int", nullable: false),
                     Time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
-                    AccountNumber = table.Column<int>(type: "int", nullable: true)
+                    AccountNumber = table.Column<string>(type: "nvarchar(14)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transaction", x => x.TransactionID);
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionID);
                     table.ForeignKey(
-                        name: "FK_Transaction_Account_AccountNumber",
+                        name: "FK_Transactions_Accounts_AccountNumber",
                         column: x => x.AccountNumber,
-                        principalTable: "Account",
+                        principalTable: "Accounts",
                         principalColumn: "AccountNumber");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Account_UserNumber",
-                table: "Account",
+                name: "IX_Accounts_UserNumber",
+                table: "Accounts",
                 column: "UserNumber");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loan_UserNumber",
-                table: "Loan",
+                name: "IX_Loans_UserNumber",
+                table: "Loans",
                 column: "UserNumber");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transaction_AccountNumber",
-                table: "Transaction",
+                name: "IX_Transactions_AccountNumber",
+                table: "Transactions",
                 column: "AccountNumber");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Loan");
+                name: "Loans");
 
             migrationBuilder.DropTable(
-                name: "Transaction");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "Account");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "Users");
