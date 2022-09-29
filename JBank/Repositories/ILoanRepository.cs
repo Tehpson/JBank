@@ -23,7 +23,7 @@ namespace JBank.Repositories
         /// </summary>
         /// <param name="user">user who is geting loan</param>
         /// <returns>Loan That was created</returns>
-        Loan? CreateLoan(User user);
+        Loan? CreateLoan(User user, double Amount, double rentamount);
 
         /// <summary>
         /// Add amount that was Repaied
@@ -46,5 +46,13 @@ namespace JBank.Repositories
         /// </summary>
         /// <returns>of succsessfull</returns>
         bool IncreaseTotaltDueToRent();
+
+        /// <summary>
+        /// Update value that is left to pay
+        /// </summary>
+        /// <param name="loanNumber">Numer of the loan</param>
+        /// <param name="newValue">New vlaue to be LeftToPay</param>
+        /// <returns></returns>
+        bool UpdateLeftToPay(int loanNumber, double newValue);
     }
 }
